@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Juegos.Api</name>
+    </assembly>
+    <members>
+        <member name="M:Juegos.Api.Controllers.VideojuegosController.AddJuego(System.Guid,Juegos.Api.Models.Videojuego)">
+            <summary>
+            Agrega un Juego a la Categtoria
+            </summary>
+            <param name="categId">El id de Categoria que agregara al juego</param>
+            <param name="juego">El Juego que se agregara a la categoria</param>
+            <returns>El juego agregado</returns>
+        </member>
+        <member name="M:Juegos.Api.Controllers.VideojuegosController.GetJuegosByCategoria(System.Guid)">
+            <summary>
+            Muestra los Juegos por  Id de Categoria
+            </summary>
+            <param name="categId">El Id de la Categoria</param>
+            <returns>Los Juegos en la categoria</returns>
+        </member>
+        <member name="M:Juegos.Api.Controllers.VideojuegosController.GetJuegosById(System.Guid,System.Guid)">
+            <summary>
+            Muestra los Juegos por Id dentro de una Categoria especifica
+            </summary>
+            <param name="categId">Id de la Categoria</param>
+            <param name="juegoId">Id del Juego</param>
+            <returns>El juego en la categoria</returns>
+        </member>
+    </members>
+</doc>
