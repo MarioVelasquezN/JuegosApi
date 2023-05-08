@@ -8,6 +8,11 @@ namespace Juegos.Api.Controllers
     [ApiController]
     public class ClientesController : ControllerBase
     {
+        private readonly JuegosContext juegosContext;
+
+        public ClientesController(JuegosContext juegosContext) { 
+            this.juegosContext=juegosContext;
+        }
         /// <summary>
         /// Crea un cliente
         /// </summary>
@@ -21,20 +26,18 @@ namespace Juegos.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult CreateClient([FromRoute]int juegoId, Cliente client)
         {
-            var builder=new DbContextOptionsBuilder<JuegosContext>().UseSqlite("DataSource=Juegos.db");
-            var context = new JuegosContext(builder.Options);
-            context.Database.EnsureCreated();
-            var juego = context.VideoJuegos.FirstOrDefault(x => x.Id == juegoId);
+           
+            var juego = juegosContext.VideoJuegos.FirstOrDefault(x => x.Id == juegoId);
             if (juego is null)
             {
                 return BadRequest($"No se encontro un juego con id {juegoId} para rentar");
             }
-            var category = context.Categorias.FirstOrDefault(x => x.Id == client.CategoId);
+            var category = juegosContext.Categorias.FirstOrDefault(x => x.Id == client.CategoId);
             if (category is null)
             {
                 return BadRequest($"No se encontro una categoria con id {client.CategoId}");
             }
-            context.Clientes.Add(client);
+            juegosContext.Clientes.Add(client);
             return new CreatedAtActionResult(nameof(GetClientesById), "Clientes", new { juegoId = juegoId, clienteId = client.Id }, client);
 
         }
@@ -51,15 +54,12 @@ namespace Juegos.Api.Controllers
         public ActionResult GetClientesById([FromRoute] int juegoId, int clienteId)
         {
 
-            var builder = new DbContextOptionsBuilder<JuegosContext>().UseSqlite("DataSource=Juegos.db");
-            var context = new JuegosContext(builder.Options);
-            context.Database.EnsureCreated();
-            var juego = context.VideoJuegos.FirstOrDefault(x => x.Id == juegoId);
+            var juego = juegosContext.VideoJuegos.FirstOrDefault(x => x.Id == juegoId);
             if (juego is null)
             {
                 return BadRequest($"No se encontro un juego con el id {juegoId}");
             }
-            var cliente = context.Clientes.FirstOrDefault(x => x.Id == clienteId && x.Id == clienteId);
+            var cliente = juegosContext.Clientes.FirstOrDefault(x => x.Id == clienteId && x.Id == clienteId);
             if (cliente == null)
             {
                 return BadRequest($"No se encontro cliente con Id {clienteId}");

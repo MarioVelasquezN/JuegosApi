@@ -9,6 +9,12 @@ namespace Juegos.Api.Controllers
     [ApiController]
     public class VideojuegosController : ControllerBase
     {
+        private readonly JuegosContext context;
+
+        public VideojuegosController(JuegosContext context)
+        {
+            this.context = context;
+        }
         /// <summary>
         /// Agrega un Juego a la Categtoria
         /// </summary>
@@ -22,9 +28,6 @@ namespace Juegos.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult AddJuego([FromRoute]int categId,[FromBody]Videojuego juego)
         {
-            var builder = new DbContextOptionsBuilder<JuegosContext>().UseSqlite("DataSource=Juegos.db");
-            var context = new JuegosContext(builder.Options);
-            context.Database.EnsureCreated();
             var categ = context.Categorias.FirstOrDefault(x => x.Id == categId);
             if (categ == null)
             {
@@ -48,9 +51,6 @@ namespace Juegos.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult GetJuegosByCategoria([FromRoute]int categId)
         {
-            var builder = new DbContextOptionsBuilder<JuegosContext>().UseSqlite("DataSource=Juegos.db");
-            var context = new JuegosContext(builder.Options);
-            context.Database.EnsureCreated();
             var categ = context.Categorias.FirstOrDefault(x => x.Id == categId);
             if (categ == null)
             {
@@ -73,9 +73,6 @@ namespace Juegos.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult GetJuegosById([FromRoute] int categId,int juegoId)
         {
-            var builder = new DbContextOptionsBuilder<JuegosContext>().UseSqlite("DataSource=Juegos.db");
-            var context = new JuegosContext(builder.Options);
-            context.Database.EnsureCreated();
             var categ = context.Categorias.FirstOrDefault(x => x.Id == categId);
             if (categ == null)
             {

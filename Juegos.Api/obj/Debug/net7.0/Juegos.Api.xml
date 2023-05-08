@@ -43,5 +43,17 @@
             <param name="juegoId">Id del Juego</param>
             <returns>El juego en la categoria</returns>
         </member>
+        <member name="T:Juegos.Api.Migrations.InicialMigration">
+            <inheritdoc />
+        </member>
+        <member name="M:Juegos.Api.Migrations.InicialMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Juegos.Api.Migrations.InicialMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Juegos.Api.Migrations.InicialMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

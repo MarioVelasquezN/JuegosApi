@@ -9,15 +9,21 @@ namespace Juegos.Api.Controllers
     [Route("[controller]")]
     public class CategoriasController : ControllerBase
     {
-        
+        private readonly JuegosContext context;
 
+        public CategoriasController(JuegosContext context)
+        {
+            this.context = context;
+        }
 
+        /// <summary>
+        /// Muestra una lista de categorias
+        /// </summary>
+        /// <param name="nombre">Nombre de la categoria</param>
+        /// <returns>Las Categorias Creadas</returns>
         [HttpGet(Name = "GetCategorias")]
         public IEnumerable<Categoria> GetCategorias([FromQuery] string? nombre)
         {
-            var builder = new DbContextOptionsBuilder<JuegosContext>().UseSqlite("DataSource=Juegos.db").EnableSensitiveDataLogging().LogTo(message=> Debug.Write(message));
-            var context = new JuegosContext(builder.Options);
-            context.Database.EnsureCreated();
 
             if (string.IsNullOrEmpty(nombre))
             {
@@ -27,34 +33,42 @@ namespace Juegos.Api.Controllers
             
             
         }
-
+        /// <summary>
+        /// Muestra las categorias por id
+        /// </summary>
+        /// <param name="id">El id de las categorias</param>
+        /// <returns>Los Id de las categorias creadas</returns>
         [HttpGet("{id}")]
         public Categoria GetUserById(int id)
         {
-            var builder = new DbContextOptionsBuilder<JuegosContext>().UseSqlite("DataSource=Juegos.db");
-            var context = new JuegosContext(builder.Options);
-            context.Database.EnsureCreated();
+
             return context.Categorias.FirstOrDefault(x=>x.Id == id);
             
         }
 
+        /// <summary>
+        /// Crea una categoria
+        /// </summary>
+        /// <param name="categoria">Nombre de la categoria creada</param>
+        /// <returns>Las Categorias creadas</returns>
         [HttpPost]
         public Categoria CreateCategoria([FromBody]Categoria categoria)
         {
-            var builder = new DbContextOptionsBuilder<JuegosContext>().UseSqlite("DataSource=Juegos.db");
-            var context = new JuegosContext(builder.Options);
-            context.Database.EnsureCreated();
+
             context.Categorias.Add(categoria);
             Console.WriteLine(context.Categorias);
             return categoria;
         }
-
+        /// <summary>
+        /// Actualiza las categorias segun su Id
+        /// </summary>
+        /// <param name="id"El id de las Categorias></param>
+        /// <param name="categoria">Nombre de las categorias</param>
+        /// <returns>Las categorias Editadas</returns>
         [HttpPut("{id}")]
         public Categoria UpdateCategoria(int id, [FromBody]Categoria categoria)
         {
-            var builder = new DbContextOptionsBuilder<JuegosContext>().UseSqlite("DataSource=Juegos.db");
-            var context = new JuegosContext(builder.Options);
-            context.Database.EnsureCreated();
+
             var categoriaRemove=context.Categorias.FirstOrDefault(x=>x.Id == id);
             context.Categorias.Remove(categoriaRemove);
             context.Categorias.Add(categoria);
