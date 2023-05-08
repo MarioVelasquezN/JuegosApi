@@ -1,5 +1,7 @@
 using Juegos.Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Juegos.Api.Controllers
 {
@@ -13,36 +15,50 @@ namespace Juegos.Api.Controllers
         [HttpGet(Name = "GetCategorias")]
         public IEnumerable<Categoria> GetCategorias([FromQuery] string? nombre)
         {
+            var builder = new DbContextOptionsBuilder<JuegosContext>().UseSqlite("DataSource=Juegos.db").EnableSensitiveDataLogging().LogTo(message=> Debug.Write(message));
+            var context = new JuegosContext(builder.Options);
+            context.Database.EnsureCreated();
+
             if (string.IsNullOrEmpty(nombre))
             {
-                return Database.Categorias;
+                return context.Categorias;
             }
-            return Database.Categorias.Where(x=>x.Nombrecategoria.StartsWith(nombre));
+            return context.Categorias.Where(x => x.Nombrecategoria.StartsWith(nombre));
+            
+            
         }
 
         [HttpGet("{id}")]
-        public Categoria GetUserById(Guid id)
+        public Categoria GetUserById(int id)
         {
-            return Database.Categorias.FirstOrDefault(x=>x.Id == id);
+            var builder = new DbContextOptionsBuilder<JuegosContext>().UseSqlite("DataSource=Juegos.db");
+            var context = new JuegosContext(builder.Options);
+            context.Database.EnsureCreated();
+            return context.Categorias.FirstOrDefault(x=>x.Id == id);
+            
         }
 
         [HttpPost]
         public Categoria CreateCategoria([FromBody]Categoria categoria)
         {
-            categoria.Id = Guid.NewGuid();
-            Database.Categorias.Add(categoria);
-            Console.WriteLine(Database.Categorias);
+            var builder = new DbContextOptionsBuilder<JuegosContext>().UseSqlite("DataSource=Juegos.db");
+            var context = new JuegosContext(builder.Options);
+            context.Database.EnsureCreated();
+            context.Categorias.Add(categoria);
+            Console.WriteLine(context.Categorias);
             return categoria;
         }
 
         [HttpPut("{id}")]
-        public Categoria UpdateCategoria(Guid id, [FromBody]Categoria categoria)
+        public Categoria UpdateCategoria(int id, [FromBody]Categoria categoria)
         {
-            var categoriaRemove=Database.Categorias.FirstOrDefault(x=>x.Id == id);
-            Database.Categorias.Remove(categoriaRemove);
-            Database.Categorias.Add(categoria);
+            var builder = new DbContextOptionsBuilder<JuegosContext>().UseSqlite("DataSource=Juegos.db");
+            var context = new JuegosContext(builder.Options);
+            context.Database.EnsureCreated();
+            var categoriaRemove=context.Categorias.FirstOrDefault(x=>x.Id == id);
+            context.Categorias.Remove(categoriaRemove);
+            context.Categorias.Add(categoria);
             return categoria;
-
         }
 
     }

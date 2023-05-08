@@ -1,9 +1,15 @@
+using Juegos.Api;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddDbContext<JuegosContext>(options =>
+options.UseSqlite("DataSource=Juegos.db")
+.EnableSensitiveDataLogging()
+.LogTo(message => Debug.Write(message)));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

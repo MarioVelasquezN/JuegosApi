@@ -4,7 +4,23 @@
         <name>Juegos.Api</name>
     </assembly>
     <members>
-        <member name="M:Juegos.Api.Controllers.VideojuegosController.AddJuego(System.Guid,Juegos.Api.Models.Videojuego)">
+        <member name="M:Juegos.Api.Controllers.ClientesController.CreateClient(System.Int32,Juegos.Api.Models.Cliente)">
+            <summary>
+            Crea un cliente
+            </summary>
+            <param name="juegoId">Id del juego</param>
+            <param name="client">Id del cliente</param>
+            <returns></returns>
+        </member>
+        <member name="M:Juegos.Api.Controllers.ClientesController.GetClientesById(System.Int32,System.Int32)">
+            <summary>
+            Lista los clientes que crentaron un juego
+            </summary>
+            <param name="juegoId">Id del juego rentado</param>
+            <param name="clienteId">Id del cliente</param>
+            <returns></returns>
+        </member>
+        <member name="M:Juegos.Api.Controllers.VideojuegosController.AddJuego(System.Int32,Juegos.Api.Models.Videojuego)">
             <summary>
             Agrega un Juego a la Categtoria
             </summary>
@@ -12,14 +28,14 @@
             <param name="juego">El Juego que se agregara a la categoria</param>
             <returns>El juego agregado</returns>
         </member>
-        <member name="M:Juegos.Api.Controllers.VideojuegosController.GetJuegosByCategoria(System.Guid)">
+        <member name="M:Juegos.Api.Controllers.VideojuegosController.GetJuegosByCategoria(System.Int32)">
             <summary>
             Muestra los Juegos por  Id de Categoria
             </summary>
             <param name="categId">El Id de la Categoria</param>
             <returns>Los Juegos en la categoria</returns>
         </member>
-        <member name="M:Juegos.Api.Controllers.VideojuegosController.GetJuegosById(System.Guid,System.Guid)">
+        <member name="M:Juegos.Api.Controllers.VideojuegosController.GetJuegosById(System.Int32,System.Int32)">
             <summary>
             Muestra los Juegos por Id dentro de una Categoria especifica
             </summary>

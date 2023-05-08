@@ -2,9 +2,10 @@
 {
     public class Categoria
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public int Codigo { get; set; }
         public string Nombrecategoria { get; set; }
-        //public List<Videojuego> videojuegos  { get; set; }
+        public ICollection<Videojuego> Juegos { get; set; } = new HashSet<Videojuego>();
+   
     }
 }

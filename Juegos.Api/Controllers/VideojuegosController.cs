@@ -1,6 +1,8 @@
-﻿using Juegos.Api.Models;
+﻿using Juegos.Api;
+using Juegos.Api.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Juegos.Api.Controllers
 {
@@ -15,18 +17,25 @@ namespace Juegos.Api.Controllers
         /// <returns>El juego agregado</returns>
         [HttpPost("categorias/{categId}/[controller]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status501NotImplemented)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult AddJuego(Guid categId,[FromBody]Videojuego juego)
+        public IActionResult AddJuego([FromRoute]int categId,[FromBody]Videojuego juego)
         {
-            var categ = Database.Categorias.FirstOrDefault(x => x.Id == categId);
+            var builder = new DbContextOptionsBuilder<JuegosContext>().UseSqlite("DataSource=Juegos.db");
+            var context = new JuegosContext(builder.Options);
+            context.Database.EnsureCreated();
+            var categ = context.Categorias.FirstOrDefault(x => x.Id == categId);
             if (categ == null)
             {
                 return BadRequest($"No se encontro categoria con Id {categId} para crear el Juego");
             }
-            juego.Id=Guid.NewGuid();
-            Database.Videojuegos.Add(juego);
-            return Ok(juego);
 
+
+            context.VideoJuegos.Add(juego);
+            return new CreatedAtActionResult("GetJuegosById", "Videojuegos", new { categId = categId, juegoId = juego.Id }, juego);
+            
+          
         }
 
         /// <summary>
@@ -37,14 +46,19 @@ namespace Juegos.Api.Controllers
         [HttpGet("categorias/{categId}/[controller]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult GetJuegosByCategoria([FromRoute]Guid categId)
+        public ActionResult GetJuegosByCategoria([FromRoute]int categId)
         {
-            var categ = Database.Categorias.FirstOrDefault(x => x.Id == categId);
+            var builder = new DbContextOptionsBuilder<JuegosContext>().UseSqlite("DataSource=Juegos.db");
+            var context = new JuegosContext(builder.Options);
+            context.Database.EnsureCreated();
+            var categ = context.Categorias.FirstOrDefault(x => x.Id == categId);
             if (categ == null)
             {
                 return BadRequest($"No se encontro categoria con Id {categId}");
             }
-            return Ok(Database.Videojuegos.Where(x=>x.CategoriaId==categId));
+            return Ok(context.VideoJuegos.Where(x => x.CategoriaId == categId));
+            
+            
         }
 
         /// <summary>
@@ -56,25 +70,25 @@ namespace Juegos.Api.Controllers
         [HttpGet("categorias/{categId}/[controller]/{juegoId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult GetJuegosById([FromRoute] Guid categId,Guid juegoId)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult GetJuegosById([FromRoute] int categId,int juegoId)
         {
-            var categ = Database.Categorias.FirstOrDefault(x => x.Id == categId);
+            var builder = new DbContextOptionsBuilder<JuegosContext>().UseSqlite("DataSource=Juegos.db");
+            var context = new JuegosContext(builder.Options);
+            context.Database.EnsureCreated();
+            var categ = context.Categorias.FirstOrDefault(x => x.Id == categId);
             if (categ == null)
             {
                 return BadRequest($"No se encontro categoria con Id {categId}");
             }
-            return Ok(Database.Videojuegos.FirstOrDefault(x => x.CategoriaId == categId && x.Id==juegoId));
+            var juego = context.VideoJuegos.FirstOrDefault(x => x.CategoriaId == categId && x.Id == juegoId);
+            if (juego is null)
+            {
+                return NotFound($"No se encontro un juego con el id {juegoId}");
+            }
+            return Ok(juego);
         }
-        //[HttpGet(Name ="GetVideo-juegos")]
-        //public IEnumerable<Videojuego> get()
-        //{
-        //    return Database.Categorias;
-        //}
-
-        //[HttpGet("{id}")]
-        //public Videojuego getById(Guid id)
-        //{
-        //    return Videojuegos.FirstOrDefault(x=>x.Id==id);
-        //}
+        
     }
 }
+
