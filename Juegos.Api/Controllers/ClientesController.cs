@@ -32,12 +32,9 @@ namespace Juegos.Api.Controllers
             {
                 return BadRequest($"No se encontro un juego con id {juegoId} para rentar");
             }
-            var category = juegosContext.Categorias.FirstOrDefault(x => x.Id == client.CategoId);
-            if (category is null)
-            {
-                return BadRequest($"No se encontro una categoria con id {client.CategoId}");
-            }
+            
             juegosContext.Clientes.Add(client);
+            juegosContext.SaveChanges();
             return new CreatedAtActionResult(nameof(GetClientesById), "Clientes", new { juegoId = juegoId, clienteId = client.Id }, client);
 
         }

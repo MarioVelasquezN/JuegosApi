@@ -24,8 +24,9 @@ namespace Juegos.Api.Controllers
         [HttpPost("categorias/{categId}/[controller]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status501NotImplemented)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status501NotImplemented)]
         public IActionResult AddJuego([FromRoute]int categId,[FromBody]Videojuego juego)
         {
             var categ = context.Categorias.FirstOrDefault(x => x.Id == categId);
@@ -36,6 +37,7 @@ namespace Juegos.Api.Controllers
 
 
             context.VideoJuegos.Add(juego);
+            context.SaveChanges();
             return new CreatedAtActionResult("GetJuegosById", "Videojuegos", new { categId = categId, juegoId = juego.Id }, juego);
             
           

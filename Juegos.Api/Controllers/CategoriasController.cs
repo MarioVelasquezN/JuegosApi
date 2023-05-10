@@ -56,13 +56,14 @@ namespace Juegos.Api.Controllers
         {
 
             context.Categorias.Add(categoria);
+            context.SaveChanges();
             Console.WriteLine(context.Categorias);
             return categoria;
         }
         /// <summary>
         /// Actualiza las categorias segun su Id
         /// </summary>
-        /// <param name="id"El id de las Categorias></param>
+        /// <param name="id">El id de las Categorias</param>
         /// <param name="categoria">Nombre de las categorias</param>
         /// <returns>Las categorias Editadas</returns>
         [HttpPut("{id}")]
@@ -72,6 +73,7 @@ namespace Juegos.Api.Controllers
             var categoriaRemove=context.Categorias.FirstOrDefault(x=>x.Id == id);
             context.Categorias.Remove(categoriaRemove);
             context.Categorias.Add(categoria);
+            context.SaveChanges();
             return categoria;
         }
 

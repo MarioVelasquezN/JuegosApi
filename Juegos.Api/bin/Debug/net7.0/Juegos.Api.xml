@@ -4,6 +4,35 @@
         <name>Juegos.Api</name>
     </assembly>
     <members>
+        <member name="M:Juegos.Api.Controllers.CategoriasController.GetCategorias(System.String)">
+            <summary>
+            Muestra una lista de categorias
+            </summary>
+            <param name="nombre">Nombre de la categoria</param>
+            <returns>Las Categorias Creadas</returns>
+        </member>
+        <member name="M:Juegos.Api.Controllers.CategoriasController.GetUserById(System.Int32)">
+            <summary>
+            Muestra las categorias por id
+            </summary>
+            <param name="id">El id de las categorias</param>
+            <returns>Los Id de las categorias creadas</returns>
+        </member>
+        <member name="M:Juegos.Api.Controllers.CategoriasController.CreateCategoria(Juegos.Api.Models.Categoria)">
+            <summary>
+            Crea una categoria
+            </summary>
+            <param name="categoria">Nombre de la categoria creada</param>
+            <returns>Las Categorias creadas</returns>
+        </member>
+        <member name="M:Juegos.Api.Controllers.CategoriasController.UpdateCategoria(System.Int32,Juegos.Api.Models.Categoria)">
+            <summary>
+            Actualiza las categorias segun su Id
+            </summary>
+            <param name="id">El id de las Categorias</param>
+            <param name="categoria">Nombre de las categorias</param>
+            <returns>Las categorias Editadas</returns>
+        </member>
         <member name="M:Juegos.Api.Controllers.ClientesController.CreateClient(System.Int32,Juegos.Api.Models.Cliente)">
             <summary>
             Crea un cliente

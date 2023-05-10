@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Juegos.Api.Migrations
 {
     [DbContext(typeof(JuegosContext))]
-    [Migration("20230508043736_InicialMigration")]
+    [Migration("20230510081615_InicialMigration")]
     partial class InicialMigration
     {
         /// <inheritdoc />
@@ -42,6 +42,7 @@ namespace Juegos.Api.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Codigo")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Nombrecategoria")
@@ -59,12 +60,6 @@ namespace Juegos.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CategoId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CategoriaId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -73,8 +68,6 @@ namespace Juegos.Api.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoriaId");
 
                     b.ToTable("Clientes");
                 });
@@ -126,17 +119,6 @@ namespace Juegos.Api.Migrations
                         .HasForeignKey("videojuegosId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Juegos.Api.Models.Cliente", b =>
-                {
-                    b.HasOne("Juegos.Api.Models.Categoria", "Categoria")
-                        .WithMany()
-                        .HasForeignKey("CategoriaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Categoria");
                 });
 
             modelBuilder.Entity("Juegos.Api.Models.Videojuego", b =>
