@@ -18,14 +18,14 @@
             <param name="id">El id de las categorias</param>
             <returns>Los Id de las categorias creadas</returns>
         </member>
-        <member name="M:Juegos.Api.Controllers.CategoriasController.CreateCategoria(Juegos.Api.Models.Categoria)">
+        <member name="M:Juegos.Api.Controllers.CategoriasController.CreateCategoria(Juegos.Api.DataTransferObjects.CategoriaCreateDto)">
             <summary>
             Crea una categoria
             </summary>
             <param name="categoria">Nombre de la categoria creada</param>
             <returns>Las Categorias creadas</returns>
         </member>
-        <member name="M:Juegos.Api.Controllers.CategoriasController.UpdateCategoria(System.Int32,Juegos.Api.Models.Categoria)">
+        <member name="M:Juegos.Api.Controllers.CategoriasController.UpdateCategoria(System.Int32,Juegos.Api.DataTransferObjects.CategoriaCreateDto)">
             <summary>
             Actualiza las categorias segun su Id
             </summary>
@@ -49,7 +49,7 @@
             <param name="clienteId">Id del cliente</param>
             <returns></returns>
         </member>
-        <member name="M:Juegos.Api.Controllers.VideojuegosController.AddJuego(System.Int32,Juegos.Api.Models.Videojuego)">
+        <member name="M:Juegos.Api.Controllers.VideojuegosController.AddJuego(System.Int32,Juegos.Api.DataTransferObjects.VideojuegoCreateDto)">
             <summary>
             Agrega un Juego a la Categtoria
             </summary>

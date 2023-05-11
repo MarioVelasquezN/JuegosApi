@@ -1,4 +1,6 @@
+using Juegos.Api.DataTransferObjects;
 using Juegos.Api.Models;
+using Juegos.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -9,11 +11,11 @@ namespace Juegos.Api.Controllers
     [Route("[controller]")]
     public class CategoriasController : ControllerBase
     {
-        private readonly JuegosContext context;
+        private readonly IRepository<Categoria> categoriaRepository;
 
-        public CategoriasController(JuegosContext context)
+        public CategoriasController(IRepository<Categoria> categoriaRepository)
         {
-            this.context = context;
+            this.categoriaRepository = categoriaRepository;
         }
 
         /// <summary>
@@ -22,14 +24,35 @@ namespace Juegos.Api.Controllers
         /// <param name="nombre">Nombre de la categoria</param>
         /// <returns>Las Categorias Creadas</returns>
         [HttpGet(Name = "GetCategorias")]
-        public IEnumerable<Categoria> GetCategorias([FromQuery] string? nombre)
+        public ActionResult<IEnumerable<CategoriaListDto>> GetCategorias([FromQuery] string? nombre)
         {
 
             if (string.IsNullOrEmpty(nombre))
             {
-                return context.Categorias;
+                return Ok(categoriaRepository.Get().Select(x => new CategoriaListDto
+                {
+                    Id = x.Id,
+                    Codigo = x.Codigo,
+                    Nombrecategoria = x.Nombrecategoria
+                }));
             }
-            return context.Categorias.Where(x => x.Nombrecategoria.StartsWith(nombre));
+            var categorias=categoriaRepository.Filter(x => x.Nombrecategoria.StartsWith(nombre));
+            return Ok(categorias.Select(x => new CategoriaListDto
+            {
+                Id = x.Id,
+                Codigo = x.Codigo,
+                Nombrecategoria = x.Nombrecategoria
+            }));
+            //var categoriasList = new List<CategoriaListDto>();
+            //foreach(var categoria in categorias)
+            //{
+            //    categoriasList.Add(new CategoriaListDto
+            //    {
+            //        Id = categoria.Id,
+            //        Codigo=categoria.Codigo,
+            //        Nombrecategoria=categoria.Nombrecategoria
+            //    });
+            //}
             
             
         }
@@ -39,11 +62,29 @@ namespace Juegos.Api.Controllers
         /// <param name="id">El id de las categorias</param>
         /// <returns>Los Id de las categorias creadas</returns>
         [HttpGet("{id}")]
-        public Categoria GetUserById(int id)
+        public ActionResult<CategoriaDetailDto> GetUserById(int id)
         {
+            var categ=categoriaRepository.GetById(id);
+            if (categ is null)
+            {
+                return BadRequest("No existe la categoria");
+            }
+            return Ok(new CategoriaDetailDto
+            {
+                Id=categ.Id,
+                Nombrecategoria=categ.Nombrecategoria,
+                Juegos=categ.Juegos.Select(x=> new VideoJuegoDetailDto
+                {
+                    Id = x.Id,
+                    Nombrejuego = x.Nombrejuego,
+                    FechaPublicacion=x.FechaPublicacion,
+                    Autor=x.Autor,
+                    ModoJuego=x.ModoJuego,
+                    CopiasDisponibles=x.CopiasDisponibles,
+                    CategoriaId=x.Id
 
-            return context.Categorias.FirstOrDefault(x=>x.Id == id);
-            
+                }).ToList()
+            });
         }
 
         /// <summary>
@@ -52,13 +93,29 @@ namespace Juegos.Api.Controllers
         /// <param name="categoria">Nombre de la categoria creada</param>
         /// <returns>Las Categorias creadas</returns>
         [HttpPost]
-        public Categoria CreateCategoria([FromBody]Categoria categoria)
+        public ActionResult<CategoriaDetailDto> CreateCategoria([FromBody]CategoriaCreateDto categoriaDto)
         {
-
-            context.Categorias.Add(categoria);
-            context.SaveChanges();
-            Console.WriteLine(context.Categorias);
-            return categoria;
+            var categoria = new Categoria
+            {
+                Codigo = categoriaDto.Codigo,
+                Nombrecategoria = categoriaDto.Nombrecategoria
+            };
+            var newCategoria=categoriaRepository.Add(categoria);
+            return Ok(new CategoriaDetailDto
+            {
+                Id = newCategoria.Id,
+                Nombrecategoria = newCategoria.Nombrecategoria,
+                //Juegos=newCategoria.Juegos.Select(x=> new VideoJuegoDetailDto
+                //{
+                //    Id = x.Id,
+                //    Nombrejuego = x.Nombrejuego,
+                //    FechaPublicacion = x.FechaPublicacion,
+                //    Autor = x.Autor,
+                //    ModoJuego = x.ModoJuego,
+                //    CopiasDisponibles = x.CopiasDisponibles,
+                //    CategoriaId = x.Id
+                //}).ToList()
+            });
         }
         /// <summary>
         /// Actualiza las categorias segun su Id
@@ -67,14 +124,30 @@ namespace Juegos.Api.Controllers
         /// <param name="categoria">Nombre de las categorias</param>
         /// <returns>Las categorias Editadas</returns>
         [HttpPut("{id}")]
-        public Categoria UpdateCategoria(int id, [FromBody]Categoria categoria)
+        public ActionResult<CategoriaDetailDto> UpdateCategoria(int id, [FromBody]CategoriaCreateDto categoria)
         {
 
-            var categoriaRemove=context.Categorias.FirstOrDefault(x=>x.Id == id);
-            context.Categorias.Remove(categoriaRemove);
-            context.Categorias.Add(categoria);
-            context.SaveChanges();
-            return categoria;
+            var updatetedCategory=categoriaRepository.Update(new Categoria
+            {
+                Id=id,
+                Nombrecategoria=categoria.Nombrecategoria
+            });
+
+            return Ok(new CategoriaDetailDto
+            {
+                Id = updatetedCategory.Id,
+                Nombrecategoria = updatetedCategory.Nombrecategoria,
+                //Juegos = updatetedCategory.Juegos.Select(x => new VideoJuegoDetailDto
+                //{
+                //    Id = x.Id,
+                //    Nombrejuego = x.Nombrejuego,
+                //    FechaPublicacion = x.FechaPublicacion,
+                //    Autor = x.Autor,
+                //    ModoJuego = x.ModoJuego,
+                //    CopiasDisponibles = x.CopiasDisponibles,
+                //    CategoriaId = x.Id
+                //}).ToList()
+            });
         }
 
     }

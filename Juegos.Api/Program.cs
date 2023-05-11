@@ -1,5 +1,7 @@
 using Juegos.Api;
+using Juegos.Api.Repositories;
 using Microsoft.EntityFrameworkCore;
+using SocialNetwork.Infrastructure.EntityFramework.Repositories;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -12,6 +14,8 @@ options.UseSqlite("DataSource=Juegos.db")
 .EnableSensitiveDataLogging()
 .LogTo(message => Debug.Write(message))
 );
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

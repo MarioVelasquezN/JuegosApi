@@ -1,4 +1,5 @@
 ﻿using Juegos.Api.Models;
+using Juegos.Api.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,11 +9,14 @@ namespace Juegos.Api.Controllers
     [ApiController]
     public class ClientesController : ControllerBase
     {
-        private readonly JuegosContext juegosContext;
+        private readonly IRepository<Cliente> clienteRepository;
+        private readonly IRepository<Videojuego> videojuegoRepository;
 
-        public ClientesController(JuegosContext juegosContext) { 
-            this.juegosContext=juegosContext;
+        public ClientesController(IRepository<Cliente> clienteRepository, IRepository<Videojuego> videojuegoRepository) {
+            this.clienteRepository = clienteRepository;
+            this.videojuegoRepository = videojuegoRepository;
         }
+
         /// <summary>
         /// Crea un cliente
         /// </summary>
@@ -27,14 +31,13 @@ namespace Juegos.Api.Controllers
         public ActionResult CreateClient([FromRoute]int juegoId, Cliente client)
         {
            
-            var juego = juegosContext.VideoJuegos.FirstOrDefault(x => x.Id == juegoId);
+            var juego = this.videojuegoRepository.GetById(juegoId);
             if (juego is null)
             {
                 return BadRequest($"No se encontro un juego con id {juegoId} para rentar");
             }
             
-            juegosContext.Clientes.Add(client);
-            juegosContext.SaveChanges();
+            this.clienteRepository.Add(client);
             return new CreatedAtActionResult(nameof(GetClientesById), "Clientes", new { juegoId = juegoId, clienteId = client.Id }, client);
 
         }
@@ -51,19 +54,17 @@ namespace Juegos.Api.Controllers
         public ActionResult GetClientesById([FromRoute] int juegoId, int clienteId)
         {
 
-            var juego = juegosContext.VideoJuegos.FirstOrDefault(x => x.Id == juegoId);
+            var juego = videojuegoRepository.GetById(juegoId);
             if (juego is null)
             {
                 return BadRequest($"No se encontro un juego con el id {juegoId}");
             }
-            var cliente = juegosContext.Clientes.FirstOrDefault(x => x.Id == clienteId && x.Id == clienteId);
+            var cliente = videojuegoRepository.GetById(clienteId);
             if (cliente == null)
             {
                 return BadRequest($"No se encontro cliente con Id {clienteId}");
             }
             return Ok(cliente);
-            
-
         }
     }
 
