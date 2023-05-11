@@ -33,7 +33,7 @@
             <param name="categoria">Nombre de las categorias</param>
             <returns>Las categorias Editadas</returns>
         </member>
-        <member name="M:Juegos.Api.Controllers.ClientesController.CreateClient(System.Int32,Juegos.Api.Models.Cliente)">
+        <member name="M:Juegos.Api.Controllers.ClientesController.CreateClient(System.Int32,Juegos.Api.DataTransferObjects.ClienteCreateDto)">
             <summary>
             Crea un cliente
             </summary>
@@ -41,7 +41,7 @@
             <param name="client">Id del cliente</param>
             <returns></returns>
         </member>
-        <member name="M:Juegos.Api.Controllers.ClientesController.GetClientesById(System.Int32,System.Int32)">
+        <member name="M:Juegos.Api.Controllers.ClientesController.GetClienteById(System.Int32,System.Int32)">
             <summary>
             Lista los clientes que crentaron un juego
             </summary>

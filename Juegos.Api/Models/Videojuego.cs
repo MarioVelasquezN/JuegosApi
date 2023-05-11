@@ -10,7 +10,7 @@
         public int CopiasDisponibles { get; set; }
         public int CategoriaId { get; set; }
         //public Videojuego VideoJuego { get; set; }
-        public Categoria? Categoria { get; set; }
-        public ICollection<Cliente>? Clientes { get; set; }=new HashSet<Cliente>();
+        public Categoria Categoria { get; set; }
+        public ICollection<Cliente> Clientes { get; set; }=new HashSet<Cliente>();
     }
 }

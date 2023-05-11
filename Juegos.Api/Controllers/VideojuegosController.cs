@@ -45,17 +45,15 @@ namespace Juegos.Api.Controllers
                 Autor=juego.Autor,
                 ModoJuego=juego.ModoJuego,
                 CopiasDisponibles=juego.CopiasDisponibles,
-                CategoriaId=categ.Id,
             });
-            return new CreatedAtActionResult("GetJuegostById", "Videojuegos", new {categId=categId,juego= createdVideojuego.Id },new VideoJuegoDetailDto
+            return new CreatedAtActionResult("GetJuegosById", "Videojuegos", new {categId=categId,juego= createdVideojuego.Id },new VideoJuegoDetailDto
             {
                 Id=createdVideojuego.Id,
                 Nombrejuego=createdVideojuego.Nombrejuego,
                 FechaPublicacion=createdVideojuego.FechaPublicacion,
                 Autor=createdVideojuego.Autor,
                 ModoJuego=createdVideojuego.ModoJuego,
-                CopiasDisponibles=createdVideojuego.CopiasDisponibles,
-                CategoriaId=createdVideojuego.CategoriaId,
+                CopiasDisponibles=createdVideojuego.CopiasDisponibles
             });
             
           

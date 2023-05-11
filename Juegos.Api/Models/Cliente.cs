@@ -7,6 +7,6 @@
         public DateTime Renta { get; set; }
         //public int CategoId { get; set; }
         //public Categoria Categoria { get; set; }
-        public ICollection<Videojuego>? videojuegos { get; set; } = new HashSet<Videojuego>();
+        public ICollection<Videojuego> videojuegos { get; set; } = new HashSet<Videojuego>();
     }
 }
