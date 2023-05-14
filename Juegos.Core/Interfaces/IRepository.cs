@@ -1,4 +1,4 @@
-﻿namespace Juegos.Api.Repositories
+﻿namespace Juegos.Core.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : class
     {

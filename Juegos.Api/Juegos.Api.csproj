@@ -15,4 +15,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Juegos.Core\Juegos.Core.csproj" />
+    <ProjectReference Include="..\Juegos.Infrastructure\Juegos.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

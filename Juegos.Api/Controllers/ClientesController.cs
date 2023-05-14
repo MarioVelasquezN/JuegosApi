@@ -1,21 +1,21 @@
 ﻿using Juegos.Api.DataTransferObjects;
-using Juegos.Api.Models;
-using Juegos.Api.Repositories;
+using Juegos.Core;
+using Juegos.Core.Entities;
+using Juegos.Core.Interfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.Design;
 
 namespace Juegos.Api.Controllers
 {
     [ApiController]
     public class ClientesController : ControllerBase
     {
-        private readonly IRepository<Cliente> clienteRepository;
-        private readonly IRepository<Videojuego> videojuegoRepository;
+        private readonly IClientService clientService;
 
-        public ClientesController(IRepository<Cliente> clienteRepository, IRepository<Videojuego> videojuegoRepository) {
-            this.clienteRepository = clienteRepository;
-            this.videojuegoRepository = videojuegoRepository;
+        public ClientesController(IClientService clientService) {
+            this.clientService = clientService;
         }
 
         /// <summary>
@@ -29,25 +29,15 @@ namespace Juegos.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<ClienteDetailDto> CreateClient([FromRoute]int juegoId, ClienteCreateDto client)
+        public ActionResult<ClienteDetailDto> CreateClient([FromRoute]int juegoId, Cliente client)
         {
-           
-            var juego = this.videojuegoRepository.GetById(juegoId);
-            if (juego is null)
+            var result = this.clientService.Create(client);
+            if (result.Succeeded)
             {
-                return BadRequest($"No se encontro un juego con id {juegoId} para rentar");
+                return new CreatedAtActionResult(nameof(GetClienteById), "Clientes", new { juegoId = juegoId, clientId = client.Id }, client);
             }
-            
-            var createdClient = this.clienteRepository.Add(new Cliente{
-                Nombre=client.Nombre,
-                Renta=client.Renta
-            });
-            return new CreatedAtActionResult(nameof(GetClienteById), "Clientes", new { juegoId = juegoId, clienteId = createdClient.Id }, new ClienteDetailDto
-            {
-                Id = createdClient.Id,
-                Nombre= createdClient.Nombre,
-                Renta = createdClient.Renta
-            });
+            return GetErrorResult<Cliente>(result);
+
 
         }
         /// <summary>
@@ -63,24 +53,25 @@ namespace Juegos.Api.Controllers
         public ActionResult<ClienteDetailDto> GetClienteById([FromRoute]int juegoId, int clienteId)
         {
 
-            var juego = videojuegoRepository.GetById(juegoId);
-            if (juego is null)
+            var result = this.clientService.GetById(clienteId, juegoId);
+            if (result.Succeeded)
             {
-                return BadRequest($"No se encontro un juego con el id {juegoId}");
+                return Ok(result.Result);
             }
-            var cliente = clienteRepository.GetById(clienteId);
-            if (cliente == null)
+            return GetErrorResult<Cliente>(result);
+        }
+
+        private ActionResult GetErrorResult<TResult>(OperationResult<TResult> result)
+        {
+            switch (result.Error.Code)
             {
-                return BadRequest($"No se encontro cliente con Id {clienteId}");
+                case Core.ErrorCode.NotFound:
+                    return NotFound(result.Error.Message);
+                case Core.ErrorCode.Unauthorized:
+                    return Unauthorized(result.Error.Message);
+                default:
+                    return BadRequest(result.Error.Message);
             }
-            return Ok(new ClienteDetailDto
-            {
-                Id = cliente.Id,
-                Nombre = cliente.Nombre,
-                Renta = cliente.Renta
-            });
         }
     }
-
-    
 }

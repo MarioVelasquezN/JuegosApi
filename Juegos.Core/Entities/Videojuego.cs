@@ -1,4 +1,4 @@
-﻿namespace Juegos.Api.Models
+﻿namespace Juegos.Core.Entities
 {
     public class Videojuego
     {

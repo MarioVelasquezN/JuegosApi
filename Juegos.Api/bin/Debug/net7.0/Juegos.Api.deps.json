@@ -8,6 +8,8 @@
     ".NETCoreApp,Version=v7.0": {
       "Juegos.Api/1.0.0": {
         "dependencies": {
+          "Juegos.Core": "1.0.0",
+          "Juegos.Infrastructure": "1.0.0",
           "Microsoft.AspNetCore.OpenApi": "7.0.5",
           "Microsoft.EntityFrameworkCore": "7.0.5",
           "Microsoft.EntityFrameworkCore.Design": "7.0.5",
@@ -395,6 +397,20 @@
         "dependencies": {
           "System.Text.Encodings.Web": "7.0.0"
         }
+      },
+      "Juegos.Core/1.0.0": {
+        "runtime": {
+          "Juegos.Core.dll": {}
+        }
+      },
+      "Juegos.Infrastructure/1.0.0": {
+        "dependencies": {
+          "Juegos.Core": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "7.0.5"
+        },
+        "runtime": {
+          "Juegos.Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -648,6 +664,16 @@
       "sha512": "sha512-DaGSsVqKsn/ia6RG8frjwmJonfos0srquhw09TlT8KRw5I43E+4gs+/bZj4K0vShJ5H9imCuXupb4RmS+dBy3w==",
       "path": "system.text.json/7.0.0",
       "hashPath": "system.text.json.7.0.0.nupkg.sha512"
+    },
+    "Juegos.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Juegos.Infrastructure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

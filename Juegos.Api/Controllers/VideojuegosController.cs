@@ -1,7 +1,7 @@
 ﻿using Juegos.Api;
 using Juegos.Api.DataTransferObjects;
-using Juegos.Api.Models;
-using Juegos.Api.Repositories;
+using Juegos.Core.Entities;
+using Juegos.Core.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -38,13 +38,13 @@ namespace Juegos.Api.Controllers
             {
                 return BadRequest($"No se encontro categoria con Id {categId} para crear el Juego");
             }
-            var createdVideojuego=videojuegoRepository.Add(new Videojuego
+            var createdVideojuego=this.videojuegoRepository.Add(new Videojuego
             {
                 Nombrejuego=juego.Nombrejuego,
                 FechaPublicacion=juego.FechaPublicacion,
                 Autor=juego.Autor,
                 ModoJuego=juego.ModoJuego,
-                CopiasDisponibles=juego.CopiasDisponibles,
+                CopiasDisponibles=juego.CopiasDisponibles
             });
             return new CreatedAtActionResult("GetJuegosById", "Videojuegos", new {categId=categId,juego= createdVideojuego.Id },new VideoJuegoDetailDto
             {

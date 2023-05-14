@@ -69,3 +69,7 @@ C:\Users\Plex\Documents\UNIVERIDAD\Vanguardia\JuegosAPI\Juegos.Api\Juegos.Api\bi
 C:\Users\Plex\Documents\UNIVERIDAD\Vanguardia\JuegosAPI\Juegos.Api\Juegos.Api\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\Plex\Documents\UNIVERIDAD\Vanguardia\JuegosAPI\Juegos.Api\Juegos.Api\bin\Debug\net7.0\Mono.TextTemplating.dll
 C:\Users\Plex\Documents\UNIVERIDAD\Vanguardia\JuegosAPI\Juegos.Api\Juegos.Api\bin\Debug\net7.0\System.CodeDom.dll
+C:\Users\Plex\Documents\UNIVERIDAD\Vanguardia\JuegosAPI\Juegos.Api\Juegos.Api\bin\Debug\net7.0\Juegos.Core.dll
+C:\Users\Plex\Documents\UNIVERIDAD\Vanguardia\JuegosAPI\Juegos.Api\Juegos.Api\bin\Debug\net7.0\Juegos.Infrastructure.dll
+C:\Users\Plex\Documents\UNIVERIDAD\Vanguardia\JuegosAPI\Juegos.Api\Juegos.Api\bin\Debug\net7.0\Juegos.Core.pdb
+C:\Users\Plex\Documents\UNIVERIDAD\Vanguardia\JuegosAPI\Juegos.Api\Juegos.Api\bin\Debug\net7.0\Juegos.Infrastructure.pdb

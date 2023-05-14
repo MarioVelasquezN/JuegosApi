@@ -657,6 +657,30 @@
         "build": {
           "buildTransitive/net6.0/System.Text.Json.targets": {}
         }
+      },
+      "Juegos.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/Juegos.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Juegos.Core.dll": {}
+        }
+      },
+      "Juegos.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "Juegos.Core": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "7.0.5"
+        },
+        "compile": {
+          "bin/placeholder/Juegos.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Juegos.Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -1712,10 +1736,22 @@
         "system.text.json.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "Juegos.Core/1.0.0": {
+      "type": "project",
+      "path": "../Juegos.Core/Juegos.Core.csproj",
+      "msbuildProject": "../Juegos.Core/Juegos.Core.csproj"
+    },
+    "Juegos.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../Juegos.Infrastructure/Juegos.Infrastructure.csproj",
+      "msbuildProject": "../Juegos.Infrastructure/Juegos.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
+      "Juegos.Core >= 1.0.0",
+      "Juegos.Infrastructure >= 1.0.0",
       "Microsoft.AspNetCore.OpenApi >= 7.0.5",
       "Microsoft.EntityFrameworkCore >= 7.0.5",
       "Microsoft.EntityFrameworkCore.Design >= 7.0.5",
@@ -1755,7 +1791,14 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Plex\\Documents\\UNIVERIDAD\\Vanguardia\\JuegosAPI\\Juegos.Api\\Juegos.Core\\Juegos.Core.csproj": {
+              "projectPath": "C:\\Users\\Plex\\Documents\\UNIVERIDAD\\Vanguardia\\JuegosAPI\\Juegos.Api\\Juegos.Core\\Juegos.Core.csproj"
+            },
+            "C:\\Users\\Plex\\Documents\\UNIVERIDAD\\Vanguardia\\JuegosAPI\\Juegos.Api\\Juegos.Infrastructure\\Juegos.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\Plex\\Documents\\UNIVERIDAD\\Vanguardia\\JuegosAPI\\Juegos.Api\\Juegos.Infrastructure\\Juegos.Infrastructure.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

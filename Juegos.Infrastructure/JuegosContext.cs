@@ -1,9 +1,8 @@
-﻿
-using Juegos.Api.Models;
+﻿using Juegos.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
 
-namespace Juegos.Api
+namespace Juegos.Infrastructure
 {
     public class JuegosContext : DbContext
     {

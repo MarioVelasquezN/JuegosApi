@@ -33,7 +33,7 @@
             <param name="categoria">Nombre de las categorias</param>
             <returns>Las categorias Editadas</returns>
         </member>
-        <member name="M:Juegos.Api.Controllers.ClientesController.CreateClient(System.Int32,Juegos.Api.DataTransferObjects.ClienteCreateDto)">
+        <member name="M:Juegos.Api.Controllers.ClientesController.CreateClient(System.Int32,Juegos.Core.Entities.Cliente)">
             <summary>
             Crea un cliente
             </summary>
@@ -71,18 +71,6 @@
             <param name="categId">Id de la Categoria</param>
             <param name="juegoId">Id del Juego</param>
             <returns>El juego en la categoria</returns>
-        </member>
-        <member name="T:Juegos.Api.Migrations.InicialMigration">
-            <inheritdoc />
-        </member>
-        <member name="M:Juegos.Api.Migrations.InicialMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Juegos.Api.Migrations.InicialMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Juegos.Api.Migrations.InicialMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
         </member>
     </members>
 </doc>

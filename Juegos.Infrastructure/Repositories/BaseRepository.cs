@@ -1,6 +1,7 @@
-﻿using System;
-using Juegos.Api;
-using Juegos.Api.Repositories;
+﻿using Juegos.Core.Interfaces;
+using Juegos.Infrastructure;
+using System;
+
 
 namespace SocialNetwork.Infrastructure.EntityFramework.Repositories
 {

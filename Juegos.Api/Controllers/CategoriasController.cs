@@ -1,6 +1,6 @@
 using Juegos.Api.DataTransferObjects;
-using Juegos.Api.Models;
-using Juegos.Api.Repositories;
+using Juegos.Core.Entities;
+using Juegos.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;

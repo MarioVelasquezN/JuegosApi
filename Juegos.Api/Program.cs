@@ -1,5 +1,6 @@
-using Juegos.Api;
-using Juegos.Api.Repositories;
+
+using Juegos.Core.Interfaces;
+using Juegos.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Infrastructure.EntityFramework.Repositories;
 using System.Diagnostics;
